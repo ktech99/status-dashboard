@@ -1,9 +1,9 @@
 ---
-name: status-dashboard
+name: visual-dashboard-generator
 description: Create a polished, dark-themed HTML status page for any domain — projects, sprints, goals, health metrics, business dashboards, life reviews, or anything else. Claude generates a beautiful self-contained HTML file from scratch based on whatever context you provide. Trigger when someone wants a "status page", "dashboard", "visual summary", "progress page", "sprint recap", "life dashboard", "health metrics page", or any visually digestible explainer. Also triggers for "plan a project", "roadmap", "help me plan", "break this into phases" — generates a forward-looking roadmap dashboard with phases, milestones, and timelines. Prefer this skill over ad-hoc HTML whenever the ask is visual and shareable.
 ---
 
-# Status Dashboard
+# Visual Dashboard Generator
 
 Generate a beautiful, self-contained dark-themed HTML status page from scratch. No templates, no assets — Claude builds the full HTML inline based on the context provided. Works for any domain: engineering projects, sprint recaps, personal goals, health tracking, business metrics, life dashboards, and more.
 

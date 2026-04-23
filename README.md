@@ -133,4 +133,44 @@ MIT — free to use, modify, and distribute.
 
 ---
 
+## Example Prompts
+
+### Status Dashboards (what's happening now)
+
+```
+Create a status dashboard for my Node.js API refactor. We've completed auth
+and routing, currently working on the database layer, still need to do
+testing and deployment.
+```
+
+```
+Show me a life dashboard for my Q2 goals: fitness (running 3x/week — on
+track), dating (joined a new app — active), side project (task manager —
+just started).
+```
+
+```
+Sprint recap: 2-week sprint, completed 18/24 tickets, blocked on 2 external
+API integrations, team of 3.
+```
+
+### Project Planning (what to build next)
+
+```
+I want to build a meditation iOS app with breathing exercises, haptic
+feedback, and 4 preset modes. Help me plan it and show me the roadmap.
+```
+
+```
+I want to launch a pay-per-report stock research tool. Help me plan the
+MVP, beta, and v1 launch.
+```
+
+```
+Plan a SaaS landing page + waitlist funnel for a new B2B product. I need
+branding, copy, a signup form, and an email sequence. Break it into phases.
+```
+
+---
+
 Made with ❤️ by [Kartik Arora](https://github.com/ktech99)

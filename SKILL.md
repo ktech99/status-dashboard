@@ -1,6 +1,6 @@
 ---
 name: status-dashboard
-description: Create a polished, dark-themed HTML status page for any domain — projects, sprints, goals, health metrics, business dashboards, life reviews, or anything else. Claude generates a beautiful self-contained HTML file from scratch based on whatever context you provide. Trigger when someone wants a "status page", "dashboard", "visual summary", "progress page", "sprint recap", "life dashboard", "health metrics page", or any visually digestible explainer. Prefer this skill over ad-hoc HTML whenever the ask is visual and shareable.
+description: Create a polished, dark-themed HTML status page for any domain — projects, sprints, goals, health metrics, business dashboards, life reviews, or anything else. Claude generates a beautiful self-contained HTML file from scratch based on whatever context you provide. Trigger when someone wants a "status page", "dashboard", "visual summary", "progress page", "sprint recap", "life dashboard", "health metrics page", or any visually digestible explainer. Also triggers for "plan a project", "roadmap", "help me plan", "break this into phases" — generates a forward-looking roadmap dashboard with phases, milestones, and timelines. Prefer this skill over ad-hoc HTML whenever the ask is visual and shareable.
 ---
 
 # Status Dashboard
@@ -54,6 +54,118 @@ Write a complete, self-contained HTML file following the design system below. Do
 ### Step 4 — Save and link back
 
 Save to a sensible path: `sprint-23-recap.html`, `phase-1-status.html`, `health-week-3.html`. Give the user the path and a 2–3 sentence summary of what's on the page.
+
+---
+
+## Planning Mode
+
+The skill supports two modes. Use the right one based on the user's intent:
+
+| Mode | Trigger | Orientation |
+|------|---------|-------------|
+| **Status Mode** | User describes *current state* of a project, sprint, or goal | Retrospective — shows what's done, active, and remaining |
+| **Planning Mode** | User describes a project they *want to build* or *haven't started yet* | Forward-looking — shows the roadmap, phases, and what comes next |
+
+### When to use Planning Mode
+
+- "I want to build…", "Help me plan…", "Break this into phases"
+- "What's my roadmap for…", "Plan my strategy for…"
+- "I'm going to launch…" (future tense, no current progress to report)
+
+### Planning Mode workflow
+
+**Step 1 — Understand the project**
+
+Before writing anything, identify:
+- What is the user building or achieving?
+- What's the end goal / definition of done?
+- Any known constraints (timeline, team size, budget, tech stack)?
+- What does success look like at each stage?
+
+**Step 2 — Generate the plan**
+
+Break the project into **3–7 phases**. For each phase:
+
+| Field | Description |
+|-------|-------------|
+| **Phase name** | Short, punchy label (e.g. "Foundation", "Core Build", "Beta", "Launch") |
+| **Goal** | One sentence — what does completing this phase mean? |
+| **Key deliverables** | 2–4 concrete outputs (e.g. "user auth working", "payment flow tested") |
+| **Success metric** | How you know it's done (e.g. "100 beta users onboarded", "latency < 200ms") |
+| **Rough timeline** | Honest estimate ("1–2 weeks", "1 month", "~6 weeks") |
+
+All phases start in `todo` state. Do not mark anything as done or active unless the user confirmed progress exists.
+
+**Step 3 — Write the "Why this plan" section**
+
+After the phases, include a short narrative (3–6 sentences) explaining the key decisions behind the plan:
+- Why these phases in this order?
+- What tradeoffs did you make?
+- What assumptions underlie the timeline?
+
+**Step 4 — Write the "Risks & Unknowns" section**
+
+List 3–6 honest risks or open questions. Be specific — not generic advice. Format as a card grid or simple list with emoji indicators:
+- 🔴 High risk / blockers
+- 🟡 Medium risk / watch items
+- 🟢 Low risk / manageable
+
+**Step 5 — Generate the HTML dashboard**
+
+Use the same dark-themed design system as Status Mode, but with these differences:
+
+- **Timeline section**: All steps in `todo` state (slate color, `○` marker). Progress bar at 0%.
+- **Hero tagline**: Future-tense framing ("Here's your roadmap", "The plan to get there")
+- **Stats row**: Show estimated total timeline, number of phases, key milestone count — not completion %
+- **Feature cards**: Show deliverables and success metrics per phase
+- **Highlight card**: Use for the "Why this plan" narrative
+- **What's next section**: First phase kickoff tasks — immediate next actions
+- **Risks card grid**: Render risks with color-coded emoji indicators
+- **Header chip**: Use `ROADMAP` or `PLAN` chip instead of a status chip
+- **Pulse dot**: Still use it — the plan is live
+
+**Planning Mode HTML additions:**
+
+```html
+<!-- Risks & Unknowns section -->
+<section class="section">
+  <h2 class="section-title">⚠️ Risks &amp; Unknowns</h2>
+  <div class="cards-grid">
+    <div class="next-card" style="border: 1.5px solid rgba(251,113,133,0.25); background: rgba(251,113,133,0.06); border-radius: 0.75rem; padding: 1rem 1.25rem;">
+      <div style="font-size:1.25rem;margin-bottom:0.5rem;">🔴</div>
+      <h4><!-- Risk title --></h4>
+      <p style="color:var(--muted);font-size:0.875rem;margin-top:0.25rem;"><!-- Description --></p>
+    </div>
+    <!-- Repeat for 🟡 amber, 🟢 emerald variants -->
+  </div>
+</section>
+
+<!-- Why this plan (use Highlight Card) -->
+<section class="section">
+  <div class="highlight-card" style="background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(34,211,238,0.08)); border: 1.5px solid rgba(167,139,250,0.3); border-radius: 0.75rem; padding: 1.75rem;">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+      <div style="font-size:2rem;">🧠</div>
+      <div>
+        <h3>Why This Plan</h3>
+        <div style="display:flex;gap:0.5rem;margin-top:0.25rem;">
+          <span class="chip chip-violet">STRATEGY</span>
+        </div>
+      </div>
+    </div>
+    <p><!-- Rationale narrative --></p>
+  </div>
+</section>
+```
+
+### Quality checklist — Planning Mode
+
+- [ ] All timeline steps are `todo` state — no false progress
+- [ ] Every phase has a concrete success metric
+- [ ] Timelines are honest ranges, not aspirational best-case
+- [ ] "Why this plan" section explains ordering decisions
+- [ ] Risks section has at least one high-risk item (don't sugarcoat)
+- [ ] Stats row shows projected totals, not completion metrics
+- [ ] Footer says "Roadmap generated" not "Status as of"
 
 ---
 

@@ -8,6 +8,10 @@
 
 Need a polished, shareable status page? Get Claude to build you one.
 
+## Preview
+
+![Status Dashboard Demo](demo.png)
+
 Use [Claude.ai](https://claude.ai) with this skill to generate professional status dashboards in seconds. Describe your project, sprint, goals, or metrics — Claude creates a beautiful, dark-themed HTML file you can open in any browser, share with teammates, or embed in docs.
 
 - **No design skills needed** — just describe what you want to track

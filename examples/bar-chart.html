@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Step Count — Bar Chart</title>
+  <style>
+    :root {
+      --bg:      #020617;
+      --surface: #0f172a;
+      --border:  #1e293b;
+      --text:    #e2e8f0;
+      --muted:   #64748b;
+      --emerald: #34d399;
+      --amber:   #fbbf24;
+      --violet:  #a78bfa;
+      --cyan:    #22d3ee;
+      --rose:    #fb7185;
+      --slate:   #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 0% 0%, rgba(251,191,36,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 0%, rgba(167,139,250,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .subject-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.8rem;
+      color: var(--slate);
+      font-weight: 500;
+    }
+    .pulse-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      animation: pulse 2s ease-in-out infinite;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(52,211,153,0.4); }
+      50%      { box-shadow: 0 0 0 6px rgba(52,211,153,0); }
+    }
+    .meta-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.6rem; border-radius: 0.375rem;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .chip-emerald { background: rgba(52,211,153,0.12); color: var(--emerald); border: 1px solid rgba(52,211,153,0.25); }
+    .chip-amber   { background: rgba(251,191,36,0.12);  color: var(--amber);   border: 1px solid rgba(251,191,36,0.25); }
+    .chip-slate   { background: rgba(148,163,184,0.1);  color: var(--slate);   border: 1px solid rgba(148,163,184,0.2); }
+    .hero { margin-bottom: 2rem; }
+    .hero h1 {
+      font-size: 2rem; font-weight: 800;
+      line-height: 1.2; margin-bottom: 0.6rem;
+    }
+    .hero .tagline {
+      color: var(--muted); font-size: 0.95rem;
+      max-width: 600px; line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+    .stat-tiles {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .stat-tile {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1rem 1.5rem;
+      display: flex; flex-direction: column; gap: 0.25rem;
+      min-width: 140px;
+    }
+    .stat-num {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 2rem; font-weight: 700; line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem; color: var(--muted); font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .section { margin-bottom: 2.5rem; }
+    .section-title {
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 1.25rem; color: var(--text);
+    }
+    .chart-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+    }
+    .footer {
+      margin-top: 3rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 0.75rem;
+      color: var(--muted); font-size: 0.8rem; flex-wrap: wrap;
+    }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header-bar">
+    <div class="subject-pill">
+      <span class="pulse-dot"></span>
+      Weekly Activity
+    </div>
+    <div class="meta-chips">
+      <span class="chip chip-amber">Bar Chart</span>
+      <span class="chip chip-slate">Week of Apr 21</span>
+      <span class="chip chip-slate">7 days</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Weekly <span style="color:var(--amber)">Step Count</span></h1>
+    <p class="tagline">Daily steps tracked across the week. Goal is 10,000 steps per day — amber line shows the threshold. Saturday crushed it.</p>
+  </div>
+
+  <div class="stat-tiles">
+    <div class="stat-tile" style="border-color:rgba(251,191,36,0.3);background:rgba(251,191,36,0.06);">
+      <span class="stat-num" style="color:var(--amber)">65k</span>
+      <span class="stat-label">Total Steps</span>
+    </div>
+    <div class="stat-tile" style="border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.06);">
+      <span class="stat-num" style="color:var(--emerald)">14k</span>
+      <span class="stat-label">Best Day (Sat)</span>
+    </div>
+    <div class="stat-tile" style="border-color:rgba(148,163,184,0.2);background:rgba(148,163,184,0.04);">
+      <span class="stat-num mono" style="color:var(--slate)">9.3k</span>
+      <span class="stat-label">Daily Avg</span>
+    </div>
+    <div class="stat-tile" style="border-color:rgba(34,211,238,0.3);background:rgba(34,211,238,0.06);">
+      <span class="stat-num" style="color:var(--cyan)">4/7</span>
+      <span class="stat-label">Days Hit Goal</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">📊 Steps by Day of Week</h2>
+    <div class="chart-card">
+      <div style="overflow-x:auto;">
+        <svg id="bar-chart" viewBox="0 0 620 320" width="100%" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+          <!-- Grid lines and bars will be injected by script -->
+          <g id="grid-lines"></g>
+          <g id="bars"></g>
+          <g id="goal-line-group"></g>
+          <g id="y-labels" font-family="'JetBrains Mono','Fira Code',monospace" font-size="10" fill="#64748b" text-anchor="end"></g>
+          <g id="x-labels" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle"></g>
+          <text id="bar-tip" font-family="'JetBrains Mono','Fira Code',monospace" font-size="11" fill="#fbbf24" opacity="0" text-anchor="middle" font-weight="600"></text>
+          <!-- Goal line label -->
+          <text id="goal-label" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="10" fill="#fbbf24" opacity="0.8" text-anchor="start"></text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--muted);">
+          <div style="width:24px;height:10px;border-radius:2px;background:rgba(251,191,36,0.75);"></div>
+          <span>Steps</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--amber);">
+          <div style="width:24px;height:2px;border-top:2px dashed #fbbf24;"></div>
+          <span>10k Goal</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--muted);">
+          <div style="width:24px;height:10px;border-radius:2px;background:rgba(52,211,153,0.75);"></div>
+          <span>Goal achieved</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>Weekly Step Count</span>
+    <span>·</span>
+    <span>Bar Chart Example</span>
+    <span>·</span>
+    <span class="mono" style="font-size:0.7rem;color:var(--muted)">visual-dashboard-generator v1.1.0</span>
+  </footer>
+</div>
+
+<script>
+(function() {
+  const data = [
+    { label: 'Mon', value: 8000 },
+    { label: 'Tue', value: 12000 },
+    { label: 'Wed', value: 6000 },
+    { label: 'Thu', value: 9000 },
+    { label: 'Fri', value: 11000 },
+    { label: 'Sat', value: 14000 },
+    { label: 'Sun', value: 5000 },
+  ];
+  const GOAL = 10000;
+  const svgW = 620, svgH = 320;
+  const padL = 55, padR = 20, padT = 25, padB = 55;
+  const chartW = svgW - padL - padR;
+  const chartH = svgH - padT - padB;
+  const maxVal = 15000;
+  const barW = chartW / data.length * 0.55;
+  const gap = chartW / data.length;
+
+  const barsG     = document.getElementById('bars');
+  const gridG     = document.getElementById('grid-lines');
+  const goalG     = document.getElementById('goal-line-group');
+  const xlG       = document.getElementById('x-labels');
+  const ylG       = document.getElementById('y-labels');
+  const tip       = document.getElementById('bar-tip');
+  const goalLabel = document.getElementById('goal-label');
+
+  function svgEl(tag) { return document.createElementNS('http://www.w3.org/2000/svg', tag); }
+
+  // Y-axis ticks
+  const ticks = [0, 5000, 10000, 15000];
+  ticks.forEach(v => {
+    const y = padT + chartH - (v / maxVal * chartH);
+    const line = svgEl('line');
+    line.setAttribute('x1', padL); line.setAttribute('x2', padL + chartW);
+    line.setAttribute('y1', y);    line.setAttribute('y2', y);
+    line.setAttribute('stroke', '#1e293b'); line.setAttribute('stroke-width', '1');
+    gridG.appendChild(line);
+
+    const t = svgEl('text');
+    t.setAttribute('x', padL - 8); t.setAttribute('y', y + 4);
+    t.textContent = v >= 1000 ? (v / 1000) + 'k' : v;
+    ylG.appendChild(t);
+  });
+
+  // X axis baseline
+  const baseline = svgEl('line');
+  baseline.setAttribute('x1', padL); baseline.setAttribute('x2', padL + chartW);
+  baseline.setAttribute('y1', padT + chartH); baseline.setAttribute('y2', padT + chartH);
+  baseline.setAttribute('stroke', '#1e293b'); baseline.setAttribute('stroke-width', '1.5');
+  gridG.appendChild(baseline);
+
+  // Bars
+  data.forEach((d, i) => {
+    const x = padL + gap * i + gap / 2 - barW / 2;
+    const barH = (d.value / maxVal) * chartH;
+    const y = padT + chartH - barH;
+    const hitGoal = d.value >= GOAL;
+    const fillColor = hitGoal ? 'rgba(52,211,153,0.75)' : 'rgba(251,191,36,0.75)';
+    const fillHover = hitGoal ? 'rgba(52,211,153,0.95)' : 'rgba(251,191,36,0.95)';
+    const strokeColor = hitGoal ? 'rgba(52,211,153,0.5)' : 'rgba(251,191,36,0.5)';
+
+    const rect = svgEl('rect');
+    rect.setAttribute('x', x); rect.setAttribute('y', y);
+    rect.setAttribute('width', barW); rect.setAttribute('height', barH);
+    rect.setAttribute('rx', '5');
+    rect.setAttribute('fill', fillColor);
+    rect.setAttribute('stroke', strokeColor);
+    rect.setAttribute('stroke-width', '1.5');
+    rect.style.cursor = 'pointer';
+    rect.style.transition = 'fill 0.15s';
+
+    rect.addEventListener('mouseover', () => {
+      tip.setAttribute('x', x + barW / 2);
+      tip.setAttribute('y', y - 10);
+      tip.textContent = d.value.toLocaleString() + ' steps';
+      tip.setAttribute('opacity', '1');
+      rect.setAttribute('fill', fillHover);
+    });
+    rect.addEventListener('mouseout', () => {
+      tip.setAttribute('opacity', '0');
+      rect.setAttribute('fill', fillColor);
+    });
+    barsG.appendChild(rect);
+
+    // Value label on bar top
+    const valTxt = svgEl('text');
+    valTxt.setAttribute('x', x + barW / 2);
+    valTxt.setAttribute('y', y - 4);
+    valTxt.setAttribute('text-anchor', 'middle');
+    valTxt.setAttribute('font-family', "'JetBrains Mono','Fira Code',monospace");
+    valTxt.setAttribute('font-size', '9');
+    valTxt.setAttribute('fill', hitGoal ? '#34d399' : '#fbbf24');
+    valTxt.setAttribute('opacity', '0.8');
+    valTxt.textContent = (d.value / 1000).toFixed(0) + 'k';
+    barsG.appendChild(valTxt);
+
+    const lbl = svgEl('text');
+    lbl.setAttribute('x', x + barW / 2);
+    lbl.setAttribute('y', padT + chartH + 18);
+    lbl.textContent = d.label;
+    xlG.appendChild(lbl);
+  });
+
+  // Goal line (dashed amber)
+  const goalY = padT + chartH - (GOAL / maxVal * chartH);
+  const goalLine = svgEl('line');
+  goalLine.setAttribute('x1', padL); goalLine.setAttribute('x2', padL + chartW);
+  goalLine.setAttribute('y1', goalY); goalLine.setAttribute('y2', goalY);
+  goalLine.setAttribute('stroke', '#fbbf24');
+  goalLine.setAttribute('stroke-width', '1.5');
+  goalLine.setAttribute('stroke-dasharray', '6,4');
+  goalLine.setAttribute('opacity', '0.7');
+  goalG.appendChild(goalLine);
+
+  goalLabel.setAttribute('x', padL + chartW + 4);
+  goalLabel.setAttribute('y', goalY + 4);
+  goalLabel.textContent = '10k';
+})();
+</script>
+</body>
+</html>

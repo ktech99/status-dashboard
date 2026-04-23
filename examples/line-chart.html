@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MRR Growth — Line Chart</title>
+  <style>
+    :root {
+      --bg:      #020617;
+      --surface: #0f172a;
+      --border:  #1e293b;
+      --text:    #e2e8f0;
+      --muted:   #64748b;
+      --emerald: #34d399;
+      --amber:   #fbbf24;
+      --violet:  #a78bfa;
+      --cyan:    #22d3ee;
+      --rose:    #fb7185;
+      --slate:   #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 0% 0%, rgba(34,211,238,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 0%, rgba(52,211,153,0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .header-bar {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem; flex-wrap: wrap; gap: 0.75rem;
+    }
+    .subject-pill {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.8rem; color: var(--slate); font-weight: 500;
+    }
+    .pulse-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: pulse 2s ease-in-out infinite;
+      display: inline-block; flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(34,211,238,0.4); }
+      50%      { box-shadow: 0 0 0 6px rgba(34,211,238,0); }
+    }
+    .meta-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.6rem; border-radius: 0.375rem;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .chip-cyan    { background: rgba(34,211,238,0.12);  color: var(--cyan);    border: 1px solid rgba(34,211,238,0.25); }
+    .chip-emerald { background: rgba(52,211,153,0.12);  color: var(--emerald); border: 1px solid rgba(52,211,153,0.25); }
+    .chip-slate   { background: rgba(148,163,184,0.1);  color: var(--slate);   border: 1px solid rgba(148,163,184,0.2); }
+    .hero { margin-bottom: 2rem; }
+    .hero h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.6rem; }
+    .hero .tagline { color: var(--muted); font-size: 0.95rem; max-width: 600px; line-height: 1.6; margin-bottom: 1.75rem; }
+    .stat-tiles { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .stat-tile {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1rem 1.5rem;
+      display: flex; flex-direction: column; gap: 0.25rem;
+      min-width: 140px;
+    }
+    .stat-num {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 2rem; font-weight: 700; line-height: 1;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+    .stat-sub { font-size: 0.75rem; color: var(--emerald); font-weight: 500; margin-top: 0.15rem; }
+    .section { margin-bottom: 2.5rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text); }
+    .chart-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+    }
+    .footer {
+      margin-top: 3rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 0.75rem;
+      color: var(--muted); font-size: 0.8rem; flex-wrap: wrap;
+    }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header-bar">
+    <div class="subject-pill">
+      <span class="pulse-dot"></span>
+      SaaS Metrics
+    </div>
+    <div class="meta-chips">
+      <span class="chip chip-cyan">Line Chart</span>
+      <span class="chip chip-slate">Jan – Jun 2025</span>
+      <span class="chip chip-emerald">Growing</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>MRR <span style="color:var(--cyan)">Growth</span></h1>
+    <p class="tagline">Monthly recurring revenue over the first half of 2025. 6× growth from January to June, crossing the $10k MRR milestone in May.</p>
+  </div>
+
+  <div class="stat-tiles">
+    <div class="stat-tile" style="border-color:rgba(34,211,238,0.3);background:rgba(34,211,238,0.06);">
+      <span class="stat-num" style="color:var(--cyan)">$13k</span>
+      <span class="stat-label">Current MRR</span>
+      <span class="stat-sub">↑ Jun 2025</span>
+    </div>
+    <div class="stat-tile" style="border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.06);">
+      <span class="stat-num" style="color:var(--emerald)">32.7%</span>
+      <span class="stat-label">MoM Growth</span>
+      <span class="stat-sub">May → Jun</span>
+    </div>
+    <div class="stat-tile" style="border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.06);">
+      <span class="stat-num" style="color:var(--violet)">$156k</span>
+      <span class="stat-label">Total ARR</span>
+      <span class="stat-sub mono" style="font-size:0.7rem;color:var(--muted)">annualized</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">📈 MRR — Jan to Jun 2025</h2>
+    <div class="chart-card">
+      <div style="overflow-x:auto;">
+        <svg id="line-chart" viewBox="0 0 620 300" width="100%" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+          <defs>
+            <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#22d3ee" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+          <g id="lc-grid"></g>
+          <path id="lc-area" fill="url(#area-grad)" stroke="none"/>
+          <polyline id="lc-line" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <g id="lc-dots"></g>
+          <g id="lc-xlabels" font-size="11" fill="#94a3b8" text-anchor="middle"></g>
+          <g id="lc-ylabels" font-family="'JetBrains Mono','Fira Code',monospace" font-size="10" fill="#64748b" text-anchor="end"></g>
+          <text id="lc-tip" font-family="'JetBrains Mono','Fira Code',monospace" font-size="12" fill="#22d3ee" opacity="0" text-anchor="middle" font-weight="600"></text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>SaaS MRR Growth</span>
+    <span>·</span>
+    <span>Line Chart Example</span>
+    <span>·</span>
+    <span class="mono" style="font-size:0.7rem;color:var(--muted)">visual-dashboard-generator v1.1.0</span>
+  </footer>
+</div>
+
+<script>
+(function() {
+  const data = [
+    { label: 'Jan', value: 2000 },
+    { label: 'Feb', value: 3500 },
+    { label: 'Mar', value: 5000 },
+    { label: 'Apr', value: 7200 },
+    { label: 'May', value: 9800 },
+    { label: 'Jun', value: 13000 },
+  ];
+
+  const svgW = 620, svgH = 300;
+  const padL = 58, padR = 25, padT = 25, padB = 45;
+  const chartW = svgW - padL - padR;
+  const chartH = svgH - padT - padB;
+  const maxVal = 14000;
+
+  function svgEl(tag) { return document.createElementNS('http://www.w3.org/2000/svg', tag); }
+
+  const pts = data.map((d, i) => ({
+    x: padL + (i / (data.length - 1)) * chartW,
+    y: padT + chartH - (d.value / maxVal) * chartH,
+    label: d.label, value: d.value
+  }));
+
+  const gridG = document.getElementById('lc-grid');
+  const ylG   = document.getElementById('lc-ylabels');
+
+  // Grid + Y ticks
+  [0, 3500, 7000, 10500, 14000].forEach(v => {
+    const y = padT + chartH - (v / maxVal * chartH);
+    const l = svgEl('line');
+    l.setAttribute('x1', padL); l.setAttribute('x2', padL + chartW);
+    l.setAttribute('y1', y);    l.setAttribute('y2', y);
+    l.setAttribute('stroke', '#1e293b'); l.setAttribute('stroke-width', '1');
+    gridG.appendChild(l);
+
+    const t = svgEl('text');
+    t.setAttribute('x', padL - 8); t.setAttribute('y', y + 4);
+    t.textContent = '$' + (v >= 1000 ? (v / 1000).toFixed(1).replace('.0','') + 'k' : v);
+    ylG.appendChild(t);
+  });
+
+  // X baseline
+  const base = svgEl('line');
+  base.setAttribute('x1', padL); base.setAttribute('x2', padL + chartW);
+  base.setAttribute('y1', padT + chartH); base.setAttribute('y2', padT + chartH);
+  base.setAttribute('stroke', '#1e293b'); base.setAttribute('stroke-width', '1.5');
+  gridG.appendChild(base);
+
+  // Area fill
+  const areaD = 'M' + padL + ',' + (padT + chartH) + ' ' +
+    pts.map(p => p.x + ',' + p.y).join(' L') + ' L' +
+    (padL + chartW) + ',' + (padT + chartH) + ' Z';
+  document.getElementById('lc-area').setAttribute('d', areaD);
+
+  // Line
+  document.getElementById('lc-line').setAttribute('points',
+    pts.map(p => p.x + ',' + p.y).join(' ')
+  );
+
+  // Dots + X labels + tooltips
+  const dotsG = document.getElementById('lc-dots');
+  const xlG   = document.getElementById('lc-xlabels');
+  const tip   = document.getElementById('lc-tip');
+
+  pts.forEach(p => {
+    // glow circle behind
+    const glow = svgEl('circle');
+    glow.setAttribute('cx', p.x); glow.setAttribute('cy', p.y);
+    glow.setAttribute('r', '10');
+    glow.setAttribute('fill', 'rgba(34,211,238,0.08)');
+    dotsG.appendChild(glow);
+
+    const c = svgEl('circle');
+    c.setAttribute('cx', p.x); c.setAttribute('cy', p.y);
+    c.setAttribute('r', '5');
+    c.setAttribute('fill', '#020617');
+    c.setAttribute('stroke', '#22d3ee'); c.setAttribute('stroke-width', '2.5');
+    c.style.cursor = 'pointer';
+
+    c.addEventListener('mouseover', () => {
+      tip.setAttribute('x', p.x);
+      tip.setAttribute('y', p.y - 14);
+      tip.textContent = '$' + (p.value / 1000).toFixed(1).replace('.0','') + 'k MRR';
+      tip.setAttribute('opacity', '1');
+      c.setAttribute('r', '7');
+    });
+    c.addEventListener('mouseout', () => {
+      tip.setAttribute('opacity', '0');
+      c.setAttribute('r', '5');
+    });
+    dotsG.appendChild(c);
+
+    const t = svgEl('text');
+    t.setAttribute('x', p.x); t.setAttribute('y', padT + chartH + 18);
+    t.textContent = p.label;
+    xlG.appendChild(t);
+  });
+})();
+</script>
+</body>
+</html>

@@ -80,6 +80,32 @@ feature, visited NYC. In progress: hiring 2 engineers. Next: board prep,
 product roadmap.
 ```
 
+**SaaS metrics with line chart:**
+```
+Show me a metrics dashboard for my SaaS: MRR was $2k Jan, $3.5k Feb, $5k 
+Mar, $7.2k Apr. Add a line chart showing the growth trend.
+```
+
+**Sprint with ticket table:**
+```
+Create a sprint dashboard with a table of all 24 tickets: 18 done, 4 in 
+review, 2 blocked. Show the breakdown in a donut chart too.
+```
+
+**Health bar chart:**
+```
+Build a health dashboard showing my weekly step counts as a bar chart: 
+Mon 8k, Tue 12k, Wed 6k, Thu 9k, Fri 11k, Sat 14k, Sun 5k. Highlight 
+days above my 10k goal.
+```
+
+**Cumulative progress area chart:**
+```
+Generate a progress dashboard for my 100-day coding challenge. Cumulative 
+problems solved: W1: 12, W2: 31, W3: 58, W4: 79, W5: 103. Show an area 
+chart and a table of weekly totals.
+```
+
 ---
 
 ## ✨ What It Generates
@@ -97,6 +123,10 @@ Claude builds a fully custom HTML page for each request. Depending on your conte
 | **Highlight card** | Featured item, achievement, or persona with gradient background |
 | **What's next** | Upcoming work, known gaps, Phase 2+ |
 | **File tree** | Codebase structure with color-coded labels |
+| **Bar chart** | Compare values across categories (pure SVG, no libraries) |
+| **Line chart** | Track a metric trend over time with hover tooltips |
+| **Donut chart** | Show completion % or category splits as a ring |
+| **Data table** | Sortable dark-themed table with color-coded status cells |
 | **Footer** | Generated date, subject, version |
 
 ---

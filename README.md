@@ -1,8 +1,8 @@
-# Status Dashboard
+# Visual Dashboard Generator
 
 > Generate beautiful dark-themed status pages as standalone HTML files. Works as a Claude AI skill.
 
-[![version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/ktech99/status-dashboard)
+[![version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/ktech99/visual-dashboard-generator)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Claude Skill](https://img.shields.io/badge/Claude-Skill-orange)](https://claude.ai)
 
@@ -10,7 +10,7 @@ Need a polished, shareable status page? Get Claude to build you one.
 
 ## Preview
 
-![Status Dashboard Demo](demo.png)
+![Visual Dashboard Generator Demo](demo.png)
 
 Use [Claude.ai](https://claude.ai) with this skill to generate professional status dashboards in seconds. Describe your project, sprint, goals, or metrics — Claude creates a beautiful, dark-themed HTML file you can open in any browser, share with teammates, or embed in docs.
 
@@ -27,7 +27,7 @@ Use [Claude.ai](https://claude.ai) with this skill to generate professional stat
 
 ## 🚀 Quick Install
 
-1. Download **[status-dashboard.zip](status-dashboard.zip)**
+1. Download **[visual-dashboard-generator.zip](visual-dashboard-generator.zip)**
 2. Go to [claude.ai](https://claude.ai) → **Settings** → **Capabilities** → **Skills**
 3. Click **+ Add** and upload the zip file
 4. Toggle the skill **on**
@@ -116,14 +116,14 @@ All pages share a consistent dark design system:
 **Claude Code / Cursor / Windsurf:**
 ```bash
 # Global skills
-unzip status-dashboard.zip -d ~/.claude/skills/
+unzip visual-dashboard-generator.zip -d ~/.claude/skills/
 
 # Or project-local
-unzip status-dashboard.zip -d ./.claude/skills/
+unzip visual-dashboard-generator.zip -d ./.claude/skills/
 ```
 
 **Claude.ai Projects:**
-Upload `status-dashboard.zip` directly to Project Knowledge.
+Upload `visual-dashboard-generator.zip` directly to Project Knowledge.
 
 ---
 
